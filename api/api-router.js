@@ -2,6 +2,7 @@ const router = require("express").Router();
 const Users = require("../users/users-model");
 const bcrypt = require("bcryptjs");
 
+
 router.get("/", (req, res) => {
   Users.find()
     .then(data => {
@@ -44,7 +45,7 @@ router.post("/login", (req, res) => {
     .first()
     .then(user => {
       if (username && bcrypt.compareSync(password, user.password)) {
-        req.session.username = username;
+        req.session.user = user;
         res.status(201).json({ message: "Logged in", token: user.id });
       } else {
         res.status(404).json({ message: "Cannot find username or password!" });
